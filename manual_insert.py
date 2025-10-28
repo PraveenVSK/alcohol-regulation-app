@@ -16,14 +16,15 @@ shop_owners_collection = db['shop_owners']
 admin_collection = db['admin_details']
 users_collection = db['users']
 
-def insert_sample_data():
-    print("Starting data insertion to MongoDB Atlas...")
+def insert_all_data():
+    print("Starting complete data insertion to MongoDB Atlas...")
     
-    # Clear existing sample data
+    # Clear ALL existing data first
     shop_owners_collection.delete_many({})
     admin_collection.delete_many({})
+    users_collection.delete_many({})
     
-    print("Cleared existing sample data")
+    print("Cleared all existing data")
 
     # Sample shop owners with districts
     sample_shop_owners = [
@@ -111,13 +112,187 @@ def insert_sample_data():
         }
     ]
 
-    # Insert sample data
+    # Sample users data
+    sample_users = [
+        {
+            'name': 'Praveen',
+            'id': '1234',
+            'bloodGroup': 'O+',
+            'phoneNumber': '125678938980',
+            'age': '25',
+            'state': 'Tamil Nadu',
+            'district': 'Chennai',
+            'photo': 'https://img.etimg.com/thumb/msid-75194748,width-640,height-480,imgsize-300190,resizemode-4/anchor-beard.jpg',
+            'consumption': {
+                'jan': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'feb': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'mar': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'apr': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'may': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'jun': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'jul': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'aug': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'sep': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'}
+            }
+        },
+        {
+            'name': 'Jane Smith',
+            'id': '5678',
+            'bloodGroup': 'A-',
+            'phoneNumber': '258702547109',
+            'age': '65',
+            'state': 'Tamil Nadu',
+            'district': 'Chennai',
+            'photo': 'https://a.espncdn.com/combiner/i?img=/i/headshots/soccer/players/full/285629.png&w=350&h=254',
+            'consumption': {
+                'jan': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'feb': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'mar': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'apr': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'may': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'jun': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'jul': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'aug': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'sep': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'}
+            }
+        },
+        {
+            'name': 'Jon',
+            'id': '5588',
+            'bloodGroup': 'B-',
+            'phoneNumber': '782277774451',
+            'age': '30',
+            'state': 'Tamil Nadu',
+            'district': 'Chennai',
+            'photo': 'https://media.istockphoto.com/id/1392990621/photo/smart-handsome-positive-indian-or-arabian-guy-with-glasses-in-casual-wear-student-or.jpg?s=2048x2048&w=is&k=20&c=FYklnJ34SEXccfiXVE0RYv22ie1HhcCePUTv7T0PCS8=',
+            'consumption': {
+                'jan': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'feb': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'mar': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'apr': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'may': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'jun': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'jul': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'aug': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'sep': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'}
+            }
+        },
+        {
+            'name': 'Santhosh',
+            'id': '338',
+            'bloodGroup': 'A+',
+            'phoneNumber': '985728301830',
+            'age': '62',
+            'state': 'Tamil Nadu',
+            'district': 'Chennai',
+            'photo': 'https://www.travelvisapro.com/wp-content/uploads/2023/05/Facial-Hair-in-Passport-Photo.jpg',
+            'consumption': {
+                'jan': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'feb': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'mar': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'apr': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'may': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'jun': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'jul': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'aug': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'sep': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'}
+            }
+        },
+        {
+            'name': 'Rafael',
+            'id': '318',
+            'bloodGroup': 'B+',
+            'phoneNumber': '987654321234',
+            'age': '23',
+            'state': 'Tamil Nadu',
+            'district': 'Chennai',
+            'photo': 'https://i.shgcdn.com/8fec0c30-2420-4a45-9ceb-042a337e16d7/-/format/auto/-/preview/3000x3000/-/quality/lighter/',
+            'consumption': {
+                'jan': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'feb': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'mar': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'apr': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'may': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'jun': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'jul': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'aug': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'sep': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'}
+            }
+        },
+        {
+            'name': 'Murali',
+            'id': '291',
+            'bloodGroup': 'A-',
+            'phoneNumber': '987865342457',
+            'age': '20',
+            'state': 'Tamil Nadu',
+            'district': 'Chennai',
+            'photo': 'https://png.pngtree.com/png-vector/20230928/ourmid/pngtree-young-indian-man-png-image_10149659.png',
+            'consumption': {
+                'jan': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'feb': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'mar': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'apr': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'may': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'jun': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'jul': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'aug': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'sep': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'}
+            }
+        },
+        {
+            'name': 'Rajesh',
+            'id': '325',
+            'bloodGroup': 'B+',
+            'phoneNumber': '345654345678',
+            'age': '27',
+            'state': 'Tamil Nadu',
+            'district': 'Chennai',
+            'photo': 'https://i.pinimg.com/474x/84/fb/3b/84fb3b82c7de88656e6ea770bec71b3e.jpg',
+            'consumption': {
+                'jan': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'feb': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'mar': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'apr': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'may': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'jun': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'jul': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'aug': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'sep': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'}
+            }
+        },
+        {
+            'name': 'Naren',
+            'id': '295',
+            'bloodGroup': 'O+',
+            'phoneNumber': '345610986327',
+            'age': '16',
+            'state': 'Tamil Nadu',
+            'district': 'Chennai',
+            'photo': 'https://media.istockphoto.com/id/1336063208/photo/single-portrait-of-smiling-confident-male-student-teenager-looking-at-camera-in-library.jpg?s=612x612&w=0&k=20&c=w9SCRRCFa-Li82fmZotJzHdGGWXBVN7FgfBCD5NK7ic=',
+            'consumption': {
+                'jan': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'feb': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'mar': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'apr': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'may': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'jun': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'jul': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'aug': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'},
+                'sep': {'w1': '0', 'w2': '0', 'w3': '0', 'w4': '0'}
+            }
+        }
+    ]
+
+    # Insert all data
     shop_result = shop_owners_collection.insert_many(sample_shop_owners)
     admin_result = admin_collection.insert_many(sample_admins)
+    users_result = users_collection.insert_many(sample_users)
 
     print(f"✅ Inserted {len(shop_result.inserted_ids)} shop owners")
     print(f"✅ Inserted {len(admin_result.inserted_ids)} admin users")
-    print("🎉 Sample data insertion completed successfully!")
+    print(f"✅ Inserted {len(users_result.inserted_ids)} regular users")
+    print("🎉 ALL sample data insertion completed successfully!")
 
 if __name__ == '__main__':
-    insert_sample_data()
+    insert_all_data()
