@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
+    <style>
+    body {
+        background: #f5f5f5;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .container {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 40px 30px;
+        background: white;
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 1px 8px rgba(0, 0, 0, 0.06);
+        position: relative;
+    }
+    
+    .container h2 {
+        text-align: center;
+        margin-bottom: 10px;
+        color: #2c3e50;
+        font-size: 28px;
+        font-weight: 600;
+    }
+    
+    .container p {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #666;
+        font-size: 14px;
+    }
+    
+    #userEmail {
+        color: #3498db;
+        font-weight: 500;
+    }
+    
+    .otp-container {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+    
+    .otp-input {
+        width: 45px;
+        height: 45px;
+        text-align: center;
+        font-size: 20px;
+        font-weight: 600;
+        border: 2px solid #e1e8ed;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+    }
+    
+    .otp-input:focus {
+        outline: none;
+        border-color: #3498db;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        transform: scale(1.05);
+    }
+    
+    .btn {
+        width: 100%;
+        padding: 15px;
+        background: #2c3e50;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .btn:hover {
+        background: #34495e;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(44, 62, 80, 0.3);
+    }
+    
+    .btn:active {
+        transform: translateY(0);
+    }
+    
+    .back-to-login {
+        margin-top: 25px;
+        text-align: center;
+    }
+    
+    .back-to-login a {
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    
+    .back-to-login a::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #3498db;
+        transition: width 0.3s ease;
+    }
+    
+    .back-to-login a:hover::after {
+        width: 100%;
+    }
+    
+    .back-to-login a:hover {
+        color: #2980b9;
+    }
+    
+    #message {
+        margin-top: 20px;
+        text-align: center;
+        color: #e74c3c;
+        font-weight: 500;
+        padding: 12px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    #message:not(:empty) {
+        background: rgba(231, 76, 60, 0.1);
+        border: 1px solid rgba(231, 76, 60, 0.2);
+    }
+    
+    .success {
+        color: #27ae60 !important;
+    }
+    
+    .success:not(:empty) {
+        background: rgba(39, 174, 96, 0.1) !important;
+        border: 1px solid rgba(39, 174, 96, 0.2) !important;
+    }
+    
+    /* Loading animation */
+    .btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 480px) {
+        .container {
+            margin: 20px;
+            padding: 30px 20px;
+            max-width: none;
+        }
+        
+        .container h2 {
+            font-size: 24px;
+        }
+        
+        .otp-input {
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
+        }
+        
+        .otp-container {
+            gap: 8px;
+        }
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h2>Verify OTP</h2>
+        <p>OTP sent to: <span id="userEmail">{{ email }}</span></p>
+        <form id="verifyOtpForm">
+            <div class="input-box">
+                <div class="otp-container">
+                    <input type="text" id="otp1" class="otp-input" maxlength="1" required autocomplete="off">
+                    <input type="text" id="otp2" class="otp-input" maxlength="1" required autocomplete="off">
+                    <input type="text" id="otp3" class="otp-input" maxlength="1" required autocomplete="off">
+                    <input type="text" id="otp4" class="otp-input" maxlength="1" required autocomplete="off">
+                    <input type="text" id="otp5" class="otp-input" maxlength="1" required autocomplete="off">
+                    <input type="text" id="otp6" class="otp-input" maxlength="1" required autocomplete="off">
+                </div>
+                <input type="hidden" id="fullOtp" name="otp">
+                <label for="fullOtp" style="display: none;">OTP</label>
+            </div>
+            <button type="submit" class="btn">Verify OTP</button>
+        </form>
+        <div id="message"></div>
+        <div class="back-to-login">
+            <a href="/forgot-password">Back</a>
+        </div>
+    </div>
+    <script>
+        // OTP Input Handling
+        const otpInputs = document.querySelectorAll('.otp-input');
+        
+        otpInputs.forEach((input, index) => {
+            input.addEventListener('input', () => {
+                if (input.value.length === 1 && index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+                updateFullOtp();
+            });
+            
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && input.value === '' && index > 0) {
+                    otpInputs[index - 1].focus();
+                }
+                updateFullOtp();
+            });
+        });
+
+        function updateFullOtp() {
+            const fullOtp = Array.from(otpInputs).map(input => input.value).join('');
+            document.getElementById('fullOtp').value = fullOtp;
+        }
+
+        // Verify OTP Form Submission
+        document.getElementById('verifyOtpForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const otp = document.getElementById('fullOtp').value;
+            const messageDiv = document.getElementById('message');
+            
+            // Validate OTP length
+            if (otp.length !== 6) {
+                messageDiv.textContent = 'Please enter a complete 6-digit OTP';
+                return;
+            }
+            
+            messageDiv.textContent = 'Verifying OTP...';
+            messageDiv.className = '';
+            
+            try {
+                const response = await fetch('/validate-otp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ otp })
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    messageDiv.textContent = 'OTP verified successfully! Redirecting...';
+                    messageDiv.className = 'success';
+                    setTimeout(() => {
+                        window.location.href = '/reset-password';
+                    }, 1500);
+                } else {
+                    messageDiv.textContent = result.message;
+                    messageDiv.className = '';
+                }
+            } catch (error) {
+                messageDiv.textContent = 'Error: Could not connect to server';
+                messageDiv.className = '';
+                console.error('Error:', error);
+            }
+        });
+
+        // Auto-focus first OTP input on page load
+        window.onload = function() {
+            if (otpInputs.length > 0) {
+                otpInputs[0].focus();
+            }
+        };
+    </script>
+</body>
+</html>

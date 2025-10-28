@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e9ecef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .dashboard {
+            display: flex;
+            flex-direction: row;
+            padding: 20px;
+            max-width: 1000px;
+            width: 100%;
+            background-color: #aad8fd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .left-panel {
+            width: 35%;
+            padding: 15px;
+            border-right: 2px solid #0022ff;
+            background-color: #ffffff;
+        }
+
+        .left-panel img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            border: 2px solid #dee2e6;
+        }
+
+        .left-panel .details {
+            margin-top: 15px;
+        }
+
+        .left-panel .details p {
+            margin: 8px 0;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+
+        .right-panel {
+            width: 65%;
+            padding: 15px;
+        }
+
+        .right-panel h2 {
+            margin-bottom: 15px;
+            font-size: 24px;
+            color: #2a2d30;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 10px;
+        }
+
+        .excel-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .excel-table th, .excel-table td {
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            background-color: #ffffff;
+        }
+
+        .excel-table th {
+            background-color: #87c0f8;
+            color: #212529;
+        }
+
+        .excel-table td {
+            color: #495057;
+        }
+
+        .excel-table .month {
+            text-align: left;
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+
+        .button-container {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .redirect-button {
+            padding: 8px 16px;
+            font-size: 14px;
+            color: #ffffff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .redirect-button:hover {
+            background-color: #0056b3;
+        }
+
+        .update-container {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .update-container select, .update-container input {
+            padding: 8px;
+            margin-right: 5px;
+            margin-bottom: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+
+        .update-button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .update-button:hover {
+            background-color: #0056b3;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .popup-header svg {
+            margin-right: 10px;
+            color: #dc3545;
+        }
+
+        .popup-header h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .popup-message {
+            margin-bottom: 15px;
+        }
+
+        .popup-footer {
+            text-align: right;
+        }
+
+        .close-button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .status-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .status-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="left-panel">
+            <img id="user-photo" src="https://via.placeholder.com/300" alt="Person's Photo">
+            <div class="details">
+                <p><strong>ID:</strong> <span id="user-id">Loading...</span></p>
+                <p><strong>Name:</strong> <span id="user-name">Loading...</span></p>
+                <p><strong>Age:</strong> <span id="user-age">Loading...</span></p>
+                <p><strong>Blood Group:</strong> <span id="user-bloodGroup">Loading...</span></p>
+                <p><strong>Aadhar Number:</strong> <span id="user-phoneNumber">Loading...</span></p>
+                <p><strong>State:</strong> <span id="user-state">Loading...</span></p>
+                <p><strong>District:</strong> <span id="user-district">Loading...</span></p>
+                
+                <div id="age-status" class="status-message"></div>
+                <div id="alcohol-status" class="status-message"></div>
+                <div id="consumption-status" class="status-message"></div>
+                <div class="update-container">
+                    <div>
+                        <select id="month-select">
+                            <option value="jan">January</option>
+                            <option value="feb">February</option>
+                            <option value="mar">March</option>
+                            <option value="apr">April</option>
+                            <option value="may">May</option>
+                            <option value="jun">June</option>
+                            <option value="jul">July</option>
+                            <option value="aug" selected>August</option>
+                            <option value="sep">September</option>
+                        </select>
+                        <select id="week-select">
+                            <option value="w1">Week 1</option>
+                            <option value="w2">Week 2</option>
+                            <option value="w3">Week 3</option>
+                            <option value="w4">Week 4</option>
+                        </select>
+                    </div>
+                    <div>
+                        <input type="number" id="update-value" placeholder="Enter bottles (1-3)" min="1" max="3">
+                        <button class="update-button" onclick="updateConsumption()">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <h2>Monthly Activity Overview</h2>
+            <p>The limitation of every month is: 12 bottle</p>
+            <p>The limitation of every week is: 3 bottle</p>
+
+            <table class="excel-table">
+                <tr>
+                    <th>Month</th>
+                    <th>Week 1</th>
+                    <th>Week 2</th>
+                    <th>Week 3</th>
+                    <th>Week 4</th>
+                </tr>
+                <tr>
+                    <td class="month">January</td>
+                    <td id="jan-w1">-</td>
+                    <td id="jan-w2">-</td>
+                    <td id="jan-w3">-</td>
+                    <td id="jan-w4">-</td>
+                </tr>
+                <tr>
+                    <td class="month">February</td>
+                    <td id="feb-w1">-</td>
+                    <td id="feb-w2">-</td>
+                    <td id="feb-w3">-</td>
+                    <td id="feb-w4">-</td>
+                </tr>
+                <tr>
+                    <td class="month">March</td>
+                    <td id="mar-w1">-</td>
+                    <td id="mar-w2">-</td>
+                    <td id="mar-w3">-</td>
+                    <td id="mar-w4">-</td>
+                </tr>
+                <tr>
+                    <td class="month">April</td>
+                    <td id="apr-w1">-</td>
+                    <td id="apr-w2">-</td>
+                    <td id="apr-w3">-</td>
+                    <td id="apr-w4">-</td>
+                </tr>
+                <tr>
+                    <td class="month">May</td>
+                    <td id="may-w1">-</td>
+                    <td id="may-w2">-</td>
+                    <td id="may-w3">-</td>
+                    <td id="may-w4">-</td>
+                </tr>
+                <tr>
+                    <td class="month">June</td>
+                    <td id="jun-w1">-</td>
+                    <td id="jun-w2">-</td>
+                    <td id="jun-w3">-</td>
+                    <td id="jun-w4">-</td>
+                </tr>
+                <tr>
+                    <td class="month">July</td>
+                    <td id="jul-w1">-</td>
+                    <td id="jul-w2">-</td>
+                    <td id="jul-w3">-</td>
+                    <td id="jul-w4">-</td>
+                </tr>
+                <tr>
+                    <td class="month">August</td>
+                    <td id="aug-w1">-</td>
+                    <td id="aug-w2">-</td>
+                    <td id="aug-w3">-</td>
+                    <td id="aug-w4">-</td>
+                </tr>
+                <tr>
+                    <td class="month">September</td>
+                    <td id="sep-w1">-</td>
+                    <td id="sep-w2">-</td>
+                    <td id="sep-w3">-</td>
+                    <td id="sep-w4">-</td>
+                </tr>
+            </table>
+            
+            <!-- Button to redirect to login page -->
+            <div class="button-container">
+                <button class="redirect-button" onclick="redirectToLogin()">Go to Login Page</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup Message -->
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <div class="popup-header">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <h3 id="popup-title">Alert</h3>
+            </div>
+            <div class="popup-message" id="popup-message"></div>
+            <div class="popup-footer">
+                <button class="close-button" onclick="closePopup()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentUser = null;
+        let currentUserId = null;
+        let currentShopId = "TN01CN001"; // This should be set based on logged-in shop
+
+        // Get the user ID from URL parameter or localStorage
+        function getUserId() {
+            // First try to get from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const idFromUrl = urlParams.get('id');
+            if (idFromUrl) {
+                return idFromUrl;
+            }
+            
+            // If not in URL, try localStorage
+            const idFromStorage = localStorage.getItem('userID');
+            if (idFromStorage) {
+                return idFromStorage;
+            }
+            
+            // Default to first user if no ID found
+            return '1234';
+        }
+
+        // Fetch user data from API
+        async function fetchUserData(userId) {
+            try {
+                const response = await fetch(`/api/user/${userId}`);
+                if (!response.ok) {
+                    throw new Error('User not found');
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+                showPopup('Error loading user data. Please try again.');
+                return null;
+            }
+        }
+
+        // Initialize the page
+        async function initPage() {
+            currentUserId = getUserId();
+            currentUser = await fetchUserData(currentUserId);
+            
+            if (currentUser) {
+                // Update user details
+                document.getElementById('user-id').textContent = currentUser.id;
+                document.getElementById('user-name').textContent = currentUser.name;
+                document.getElementById('user-age').textContent = currentUser.age;
+                document.getElementById('user-bloodGroup').textContent = currentUser.bloodGroup;
+                document.getElementById('user-phoneNumber').textContent = currentUser.phoneNumber;
+                document.getElementById('user-photo').src = currentUser.photo;
+                document.getElementById('user-state').textContent = currentUser.state;
+                document.getElementById('user-district').textContent = currentUser.district || 'Not specified';
+                
+                // Update all table cells
+                updateTableCells();
+                
+                // Update status messages
+                updateStatusMessages();
+            } else {
+                document.querySelector('.left-panel .details').innerHTML = '<p>User not found.</p>';
+            }
+        }
+
+        // Update all table cells with current data
+        function updateTableCells() {
+            const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep'];
+            const weeks = ['w1', 'w2', 'w3', 'w4'];
+            
+            months.forEach(month => {
+                weeks.forEach(week => {
+                    const cellId = `${month}-${week}`;
+                    const value = currentUser.consumption[month][week];
+                    document.getElementById(cellId).textContent = value;
+                    
+                    // Highlight if value is not zero
+                    if (value !== '0' && value !== '-') {
+                        document.getElementById(cellId).style.backgroundColor = '#ffe6cc';
+                        document.getElementById(cellId).style.fontWeight = 'bold';
+                    }
+                });
+            });
+        }
+        // Update status messages
+function updateStatusMessages() {
+    // Age status for underage
+    const ageStatus = document.getElementById('age-status');
+    if (parseInt(currentUser.age) < 18) {
+        ageStatus.textContent = "NOTE: The Person is underage, Do not provide alcohol.";
+        ageStatus.className = "status-message status-error";
+    } else {
+        ageStatus.textContent = "";
+        ageStatus.className = "status-message";
+    }
+    
+    // Get current month and check alcohol status
+    const monthSelect = document.getElementById('month-select');
+    const currentMonth = monthSelect.value;
+    
+    // Calculate total for the current month
+    const month = currentUser.consumption[currentMonth];
+    const monthlyTotal = Object.values(month).reduce((sum, val) => sum + parseInt(val || '0'), 0);
+    
+    // Calculate current week value
+    const weekSelect = document.getElementById('week-select');
+    const currentWeek = weekSelect.value;
+    const currentWeekValue = parseInt(month[currentWeek] || '0');
+
+    // Alcohol status - check if element exists
+    const alcoholStatus = document.getElementById('alcohol-status');
+    if (alcoholStatus) {
+        if (monthlyTotal >= 12) {
+            alcoholStatus.textContent = "NOTE: The person has reached the monthly limit, Do not provide alcohol";
+            alcoholStatus.className = "status-message status-error";
+        } else {
+            alcoholStatus.textContent = "";
+            alcoholStatus.className = "status-message";
+        }
+    }
+
+    // Consumption status - check if element exists
+    const consumptionStatus = document.getElementById('consumption-status');
+    if (consumptionStatus) {
+        consumptionStatus.innerHTML = `
+            <strong>Current Month (${currentMonth.toUpperCase()}):</strong> ${monthlyTotal}/12 bottles<br>
+            <strong>Current Week (${currentWeek.toUpperCase()}):</strong> ${currentWeekValue}/3 bottles
+        `;
+        consumptionStatus.className = "status-message";
+    }
+}
+        // Function to update alcohol consumption
+        async function updateConsumption() {
+            const monthSelect = document.getElementById('month-select');
+            const weekSelect = document.getElementById('week-select');
+            const updateValueInput = document.getElementById('update-value');
+            const currentMonth = monthSelect.value;
+            const currentWeek = weekSelect.value;
+            const updateValue = updateValueInput.value.trim();
+
+            if (!updateValue) {
+                showPopup("Please enter a value");
+                return;
+            }
+
+            const value = parseInt(updateValue);
+            if (isNaN(value) || value <= 0) {
+                showPopup("Please enter a valid positive number");
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/user/${currentUserId}/update_consumption`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        month: currentMonth, 
+                        week: currentWeek, 
+                        value: value,
+                        shop_id: currentShopId
+                    })
+                });
+                
+                const result = await response.json();
+                if (!response.ok) {
+                    showPopup(result.error || "Error updating consumption");
+                    return;
+                }
+
+                // Update current user data
+                currentUser = result;
+                
+                // Update the table cell
+                const cellId = `${currentMonth}-${currentWeek}`;
+                document.getElementById(cellId).textContent = currentUser.consumption[currentMonth][currentWeek];
+                
+                // Highlight the updated cell
+                document.getElementById(cellId).style.backgroundColor = '#ffe6cc';
+                document.getElementById(cellId).style.fontWeight = 'bold';
+                
+                // Clear input
+                updateValueInput.value = '';
+                
+                // Update status messages
+                updateStatusMessages();
+                
+                // Show success message
+                showPopup("Consumption updated successfully", true);
+                
+            } catch (error) {
+                console.error('Error updating consumption:', error);
+                showPopup("Error updating consumption. Please try again.");
+            }
+        }
+
+        // Function to show popup
+        function showPopup(message, isSuccess = false) {
+            const popup = document.getElementById('popup');
+            const popupTitle = document.getElementById('popup-title');
+            const popupMessage = document.getElementById('popup-message');
+            
+            popupTitle.textContent = isSuccess ? "Success" : "Alert";
+            popupMessage.textContent = message;
+            popupMessage.style.color = isSuccess ? "green" : "red";
+            popup.style.display = "flex";
+        }
+
+        // Function to close popup
+        function closePopup() {
+            document.getElementById('popup').style.display = "none";
+        }
+
+        // Function to redirect to login page
+        function redirectToLogin() {
+            window.location.href = 'fingerprint.html';
+        }
+
+        // Add event listener for month/week select change
+        document.getElementById('month-select').addEventListener('change', updateStatusMessages);
+        document.getElementById('week-select').addEventListener('change', updateStatusMessages);
+
+        // Initialize the page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initPage);
+    </script>
+</body>
+</html>

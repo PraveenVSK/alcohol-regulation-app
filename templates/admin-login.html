@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - TASMAC</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo h1 {
+            color: #1a2a6c;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .logo p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .input-box {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .input-box input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+        
+        .input-box input:focus {
+            outline: none;
+            border-color: #1a2a6c;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(26, 42, 108, 0.1);
+        }
+        
+        .input-box label {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            color: #6c757d;
+            font-size: 16px;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        
+        .input-box input:focus + label,
+        .input-box input:valid + label {
+            top: -10px;
+            left: 15px;
+            font-size: 12px;
+            color: #1a2a6c;
+            background: white;
+            padding: 0 8px;
+            font-weight: 500;
+        }
+        
+        .input-box i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            font-size: 20px;
+            transition: color 0.3s ease;
+        }
+        
+        .input-box input:focus ~ i {
+            color: #1a2a6c;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: #1a2a6c;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn:hover {
+            background: #2a3a9c;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(26, 42, 108, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .linkTxt {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .linkTxt a {
+            color: #1a2a6c;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .linkTxt a:hover {
+            color: #2a3a9c;
+            text-decoration: underline;
+        }
+        
+        #message {
+            margin-top: 20px;
+            text-align: center;
+            color: #e74c3c;
+            font-weight: 500;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        #message:not(:empty) {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.2);
+        }
+        
+        .success {
+            color: #27ae60 !important;
+        }
+        
+        .success:not(:empty) {
+            background: rgba(39, 174, 96, 0.1) !important;
+            border: 1px solid rgba(39, 174, 96, 0.2) !important;
+        }
+        
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #6c757d;
+            text-decoration: none;
+        }
+        
+        .back-link:hover {
+            color: #1a2a6c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>🏪 TASMAC Admin</h1>
+            <p>Tamil Nadu State Marketing Corporation</p>
+        </div>
+        
+        <form id="adminLoginForm">
+            <div class="input-box">
+                <input type="email" id="email" name="email" required />
+                <label for="email">Admin Email</label>
+                <i class="bx bxs-envelope"></i>
+            </div>
+
+            <div class="input-box">
+                <input type="password" id="password" name="password" required />
+                <label for="password">Password</label>
+                <i class="bx bxs-lock-alt"></i>
+            </div>
+            
+            <button type="submit" class="btn">Login</button>
+            
+            <div class="linkTxt">
+                <p><a href="/admin-forgot-password">Forgot Password?</a></p>
+            </div>
+        </form>
+        
+        <div id="message"></div>
+        
+        <a href="/" class="back-link">← Back to Main Login</a>
+    </div>
+
+    <script>
+        document.getElementById('adminLoginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const messageDiv = document.getElementById('message');
+            
+            messageDiv.textContent = 'Logging in...';
+            messageDiv.className = '';
+            
+            try {
+                const response = await fetch('/admin-login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    messageDiv.textContent = 'Login successful! Redirecting...';
+                    messageDiv.className = 'success';
+                    setTimeout(() => {
+                        window.location.href = '/admin-dashboard';
+                    }, 1000);
+                } else {
+                    messageDiv.textContent = result.message;
+                    messageDiv.className = '';
+                }
+            } catch (error) {
+                messageDiv.textContent = 'Error: Could not connect to server';
+                messageDiv.className = '';
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>

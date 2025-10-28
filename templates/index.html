@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Register Form</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .admin-login-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            background: rgba(26, 42, 108, 0.9);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .admin-login-btn:hover {
+            background: rgba(42, 58, 156, 0.95);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+        
+        .admin-login-btn:active {
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 768px) {
+            .admin-login-btn {
+                top: 15px;
+                right: 15px;
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="admin-login-btn" onclick="window.location.href='/admin'">
+        <i class='bx bx-shield-alt'></i> Admin Login
+    </button>
+    
+    <div class="wrapper">
+        <span class="rotate-bg"></span>
+        <span class="rotate-bg2"></span>
+
+        <div class="form-box login">
+            <h2 class="title animation" style="--i: 0; --j: 21">Login</h2>
+            <form id="loginForm">
+                <div class="input-box animation" style="--i: 1; --j: 22">
+                    <input type="text" id="licenseNumber" required />
+                    <label for="licenseNumber">Licence Number</label>
+                    <i class="bx bxs-user"></i>
+                </div>
+
+                <div class="input-box animation" style="--i: 2; --j: 23">
+                    <input type="password" id="password" required />
+                    <label for="password">Password</label>
+                    <i class="bx bxs-lock-alt"></i>
+                </div>
+                <button type="submit" class="btn animation" style="--i: 3; --j: 24">Login</button>
+                <div class="linkTxt animation" style="--i: 5; --j: 25">
+                    <p><a href="/forgot-password">Forgot Password?</a></p>
+                </div>
+            </form>
+        </div>
+
+        <div class="info-text login">
+            <h2 class="animation" style="--i: 0; --j: 20">Welcome Back!</h2>
+            <p class="animation" style="--i: 1; --j: 21">
+                Ensure biometric system, fingerprint scanner, and alcohol limit tracking are operational.
+            </p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
