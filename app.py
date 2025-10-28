@@ -1181,6 +1181,21 @@ def fingerprint_html():
 def index():
     return render_template('index.html')
 
+@app.route('/test-db-connection')
+def test_db_connection():
+    try:
+        # Test MongoDB connection
+        client.admin.command('ping')
+        return jsonify({
+            'status': 'success', 
+            'message': 'MongoDB connected successfully!'
+        })
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        })
+
     
 if __name__ == '__main__':
     check_database_connection()  # Just check connection, don't insert data
