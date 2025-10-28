@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-# MongoDB connection - works both locally and in production
+# Connect to MongoDB Atlas (same as your app)
 MONGODB_URI = os.getenv('MONGODB_URI', 'mongodb://localhost:27017/')
 client = MongoClient(MONGODB_URI)
 db = client['alcohol_regulation']
@@ -17,9 +17,9 @@ admin_collection = db['admin_details']
 users_collection = db['users']
 
 def insert_sample_data():
-    print("Starting data insertion...")
+    print("Starting data insertion to MongoDB Atlas...")
     
-    # Clear existing sample data (optional)
+    # Clear existing sample data
     shop_owners_collection.delete_many({})
     admin_collection.delete_many({})
     
@@ -65,7 +65,7 @@ def insert_sample_data():
         },
         {
             "type": "shop_owner",
-            "email": "praveenmathslover100@gmail.com",
+            "email": "owner5@example.com",
             "license_number": "TN01CN005",
             "password": "password123",
             "shop_name": "TASMAC Madurai Branch 2",
@@ -74,7 +74,7 @@ def insert_sample_data():
         },
         {
             "type": "shop_owner",
-            "email": "vigneshiniramesh345@gmail.com",
+            "email": "owner6@example.com",
             "license_number": "TN01CN006",
             "password": "password123",
             "shop_name": "TASMAC Coimbatore Branch 1",
@@ -95,7 +95,7 @@ def insert_sample_data():
         },
         {
             "type": "admin",
-            "email": "praveenvsk031@gmail.com",
+            "email": "chennai.admin@tasmac.com",
             "password": "chennai123",
             "name": "Chennai District Admin",
             "district_access": ["Chennai"],
@@ -118,15 +118,6 @@ def insert_sample_data():
     print(f"✅ Inserted {len(shop_result.inserted_ids)} shop owners")
     print(f"✅ Inserted {len(admin_result.inserted_ids)} admin users")
     print("🎉 Sample data insertion completed successfully!")
-
-    # Display inserted data
-    print("\n📋 Inserted Shop Owners:")
-    for shop in shop_owners_collection.find():
-        print(f"  - {shop['shop_name']} ({shop['district']}) - {shop['email']}")
-
-    print("\n👤 Inserted Admin Users:")
-    for admin in admin_collection.find():
-        print(f"  - {admin['name']} - {admin['email']} - Districts: {', '.join(admin['district_access'])}")
 
 if __name__ == '__main__':
     insert_sample_data()
