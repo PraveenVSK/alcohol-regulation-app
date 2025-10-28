@@ -16,14 +16,39 @@ load_dotenv()  # ← ADD THIS
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', os.urandom(24))  # ← UPDATE THIS
 
-# MongoDB connection - works both locally and in production
-MONGODB_URI = os.getenv('MONGODB_URI', 'mongodb://localhost:27017/')  # ← UPDATE THIS
-client = MongoClient(MONGODB_URI)  # ← UPDATE THIS
+# MongoDB connection with SSL fix for Render
+MONGODB_URI = os.getenv('MONGODB_URI', 'mongodb://localhost:27017/')
+
+try:
+    # For production (Render) with SSL fix
+    if MONGODB_URI.startswith('mongodb+srv://'):
+        client = MongoClient(
+            MONGODB_URI,
+            tls=True,
+            tlsAllowInvalidCertificates=False,
+            retryWrites=True,
+            w='majority',
+            serverSelectionTimeoutMS=5000,
+            connectTimeoutMS=10000
+        )
+    else:
+        # For local development
+        client = MongoClient(MONGODB_URI)
+    
+    # Test connection immediately
+    client.admin.command('ping')
+    print("✅ MongoDB connected successfully with SSL!")
+    
+except Exception as e:
+    print(f"❌ MongoDB connection failed: {e}")
+    # Fallback for local development
+    client = MongoClient('mongodb://localhost:27017/')
+    print("🔄 Using local MongoDB fallback")
+
 db = client['alcohol_regulation']
 users_collection = db['users']
 shop_owners_collection = db['shop_owners']
 admin_collection = db['admin_details']
-
 # Email configuration - use environment variables
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
@@ -35,14 +60,15 @@ EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD', 'vrjqkmcejzhmyxrn')  # ← UPDATE T
 def check_database_connection():
     """Simple function to verify database connection"""
     try:
-        # Test connection by listing collections
+        # Test connection
+        client.admin.command('ping')
         collections = db.list_collection_names()
         print(f"✅ Connected to MongoDB. Collections: {collections}")
         return True
     except Exception as e:
         print(f"❌ Database connection failed: {e}")
         return False
-
+    
 # Admin Routes
 @app.route('/admin')
 def admin_login_page():
